@@ -6,6 +6,10 @@
 - Subnets - Public & Private
 - Internet Gateway
 
+**Name of the vpc & subnet will be deduced based on project name and environment e.g.**
+
+**VPC = <project-name>-<environment>-<vpc>**
+
 ### Variables
 The terraform code requires following variables to be passed:
 - AWS Region
