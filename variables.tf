@@ -11,7 +11,7 @@ variable "region" {
 
 variable "env" {
     description = "env for which vpc to be provisioned"
-    default = "dev"
+    default = "prod"
 }
 
 variable "cidr_block" {

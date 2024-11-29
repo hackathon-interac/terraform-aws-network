@@ -5,6 +5,7 @@ provider "aws" {
 locals {
   vpc_name = "${var.project_name}-${var.env}-vpc"
   subnet_name = "${var.project_name}-${var.env}-subnet"
+  cidr_subnets = cidrsubnets(var.cidr_block,4,4,4)
 }
 
 data "aws_availability_zones" "available" {}
@@ -23,8 +24,7 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "public" {
   vpc_id = "${aws_vpc.main.id}"
-
-  cidr_block              = cidrsubnet(var.cidr_block, 4, 0 )
+  cidr_block = local.cidr_subnets[2]
   map_public_ip_on_launch = true
 
 
@@ -75,10 +75,9 @@ resource "aws_subnet" "private" {
   vpc_id = "${aws_vpc.main.id}"
 
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
-  cidr_block        =  cidrsubnet(var.cidr_block, 4, count.index )
-
+  cidr_block = local.cidr_subnets[count.index]
 
  tags = {
-          Name = "${local.subnet_name}-private"
+          Name = "${local.subnet_name}-private-${count.index}"
   }
 }
