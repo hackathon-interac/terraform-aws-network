@@ -81,3 +81,15 @@ resource "aws_subnet" "private" {
           Name = "${local.subnet_name}-private-${count.index}"
   }
 }
+
+
+resource "aws_db_subnet_group" "database" {
+
+  name        = "${local.subnet_name}-database"
+  description = "Database subnet group"
+  subnet_ids  = [aws_subnet.public.id,aws_subnet.private[0].id]
+
+  tags = {
+          Name = "${local.subnet_name}-database"
+  }
+}
